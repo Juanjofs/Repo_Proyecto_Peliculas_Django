@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}
+Videoclub: Directores
+{% endblock title %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Directores" "directores" %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+<div class="row">
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html"%}
+</div>
+
+<div class="row directores mt-3 mb-3 pt-3 pb-3">
+
+    {% if object_list %}
+
+    {% for director in object_list %}
+
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+        <div class="hovereffect director">
+            <img class="img-responsive mt-1" src="{{director.url_foto}}" alt="">
+            <div class="overlay">
+                <h2>{{director.nombre}}</h2>
+                <a class="info" href="{% url 'director' director.id %}">Ver ficha</a>
+            </div>
+            <div class='numero_peliculas'>{{director.get_num_peliculas}} Películas</div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+    <h4>No hay películas disponibles</h4>
+    {% endif %}
+
+</div>
+
+{% endblock content %}

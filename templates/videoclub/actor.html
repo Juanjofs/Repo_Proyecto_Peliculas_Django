@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% load django_bootstrap_breadcrumbs %}
+{% load static %}
+
+{% block title %}
+Actor: {{actor.nombre}}
+{% endblock title %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Actores" "actores" %}
+{% breadcrumb actor.nombre actor.id %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+<div class="row">
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html"%}
+</div>
+
+<div class="row actor_detalle">
+
+    <div class="col-md-12 text-center mt-4">
+        <img class="foto" src="{{actor.url_foto}}" alt="">
+    </div>
+    <hr class="w-100">
+    <div class="ficha_actor w-100 mb-3 p-3">
+        <h2 class="text-center">{{actor.nombre}} ({{actor.get_edad}} años)</h2>
+    </div>
+</div>
+
+<div class="row peliculas mt-3 mb-3 pt-3 pb-3">
+    <h3 class="w-100 pl-3">Ha participado en...</h3>
+    <hr class="w-100">
+    {% if actor.pelicula_set.all %}
+
+    {% for pelicula in actor.pelicula_set.all %}
+
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+        <div class="hovereffect">
+            <img class="img-responsive mt-1" src="{{pelicula.url_caratula}}" alt="">
+            <div class="overlay">
+                <h2>{{pelicula.titulo}}</h2>
+                <a class="info" href="{% url 'pelicula' pelicula.id %}">Detalles</a>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+    <h4>No hay películas disponibles</h4>
+    {% endif %}
+</div>
+
+{% endblock content %}

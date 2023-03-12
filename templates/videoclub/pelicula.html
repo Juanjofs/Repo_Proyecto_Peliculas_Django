@@ -1,0 +1,107 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block title %}
+    Videoclub: {{pelicula.titulo}}
+{% endblock title %}
+
+{% block header %}
+<header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner" role="listbox">
+
+            {% if pelicula %}
+            
+            <div class="carousel-item active" style="background-image: url('{{pelicula.url_imagen_promocional}}')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>{{pelicula.titulo}}</h3>
+                    <p>{{pelicula.nota_html}}</p>
+                </div>
+            </div>
+
+            {% else %}
+
+                <h3>No se reconoce este identificador de película</h3>
+            
+            {% endif %}
+
+        </div>
+    </div>
+
+</header>
+{% endblock header %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Películas" "peliculas" %}
+{% breadcrumb pelicula.titulo pelicula.id %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+<div class="row">
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html"%}
+</div>
+
+<div class="row pelicula_detalle">
+    
+    <div class="col-md-12 text-center mt-4">
+        <img class="caratula" src="{{pelicula.url_caratula}}" alt="">        
+    </div>
+    
+    <hr class="w-100">
+    <div class="ficha_pelicula w-100 mb-3 p-3">
+        <ul class='list-unstyled'>
+            <li><h3>{{pelicula.titulo}}</h3></li>
+            <li>{{pelicula.nota_html}}</li>
+            <li>
+            {% for genero in pelicula.genero.all %}
+                {{ genero }},
+            {% endfor %}
+            </li>   
+            <li>{{pelicula.fecha}}</li>
+            <li class="mt-2">{{pelicula.sinopsis}}</li>
+        </ul>
+            <h4>Director:</h4>
+            <a class ='no_text_decoration' href="{% url 'director' pelicula.director.id %}" title='{{pelicula.director.nombre}}'>
+                <div class="row director m-3 p-2">
+                    <!-- Dispositivos pequeños -->
+                    <div class="d-lg-none d-md-none col-sm-12 text-center">
+                        <img class='foto_director' src="{{ pelicula.director.url_foto }}" alt="{{ pelicula.director.nombre }}">
+                    </div>
+                    <div class="d-lg-none d-md-none col-lg-12 text-center">
+                        <h3 class="align-self-center">{{ pelicula.director.nombre }}</h3>
+                    </div>
+                    <!-- dispositivos grandes -->
+                    <div class="d-none d-sm-none d-md-block d-lg-block col-lg-1 col-md-2">
+                        <img class='foto_director' src="{{ pelicula.director.url_foto }}" alt="{{ pelicula.director.nombre }}">
+                    </div>
+                    <div class="d-none d-sm-none d-md-block d-lg-block col-lg-11 col-md-10 align-middle pl-5">
+                        <h2 class="align-self-center">{{ pelicula.director.nombre }}</h2>
+                    </div>
+                </div>
+            </a>
+            <h4>Reparto:</h4>
+            <div class="row actores m-3 p-2 pt-1 pb-4">
+            {% for actor in pelicula.actores.all %}
+            <div class="p-1 sombra actor col-lg-12">
+                <a href="{% url 'actor' actor.id %}" class='no_text_decoration' title='{{actor.nombre}}'>
+                    <img class='foto_actor float-left' src="{{ actor.url_foto }}" alt="{{ actor.nombre }}">
+                    <h4 class="float-left ml-4">{{ actor.nombre }}</h4>
+                </a>
+            </div>
+            {% endfor %}
+            </div>
+            
+            {% if pelicula.url_trailer %}
+                <hr>
+                <h4>Trailer:</h4>
+                <div class="trailer text-center">{{pelicula.trailer_embed}}</div>
+            {% endif %}
+                
+    </div>
+</div>
+    
+{% endblock content %}
+    

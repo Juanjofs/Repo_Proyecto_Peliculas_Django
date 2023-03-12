@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+Videoclub: Acceso Prohibido
+{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="w-100 mt-5 p-4">
+        <div class="w-100 text-danger text-center">
+            <i class="fas fa-ban fa-2x"></i>
+        </div>
+        <div class="w-100 text-center mt-4">
+            <h4>No tienes los suficientes privilegios para entrar a esta página</h4>
+            <a href="{% url 'index' %}">
+                <h4>Volver</h4>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block footer %}
+    
+{% endblock footer %}
+    

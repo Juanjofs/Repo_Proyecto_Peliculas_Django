@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+Videoclub: Login
+{% endblock title %}
+
+{% block navbar %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">Bienvenido</a>
+    </div>
+</nav>
+
+{% endblock navbar %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<h4 class='mt-4'>Ya estás logeado, click <a href="{% url 'index' %}">aquí</a> para volver</h4>
+{% else %}
+<div class="row justify-content-center mt-5 mb-5 formulario_registro formulario">
+    <div class="col-md-7 caja_formulario pt-3 p-4">
+        <h4 class="text-center bg-dark text-light pb-1">Formulario de registro</h4>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary btn-block" type="submit">
+                Registrarme
+            </button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}
+
+
+{% block footer %}
+    
+{% endblock footer %}
+    

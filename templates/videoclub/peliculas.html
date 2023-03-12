@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block title %}
+    Videoclub: Películas
+{% endblock title %}
+
+{% block header %}
+<header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner" role="listbox">
+
+            <div class="carousel-item active" style="background-image: url('../media/images/background_peliculas.jpg')">
+                
+                <div class="carousel-caption d-none d-md-block">
+                    <h2 class='mb-5'>Películas</h2>
+                    <a name="" id="" class="btn btn-primary" href="{% url 'peliculas_manage' %}" role="button">Administrar Películas</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</header>
+{% endblock header %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+    {% breadcrumb "Películas" "peliculas" %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+<div class="row">
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html"%}
+</div>
+
+<div class="row peliculas mt-3 mb-3 pt-3 pb-3">
+    
+    {% if object_list %}
+        
+    {% for pelicula in object_list %}
+
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+        <div class="hovereffect">
+            <img class="img-responsive mt-1" src="{{pelicula.url_caratula}}" alt="">
+            <div class="overlay">
+                <h2>{{pelicula.titulo}}</h2>
+                <a class="info" href="{% url 'pelicula' pelicula.id %}">Detalles</a>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+
+    {% else %}
+    <h4>No hay películas disponibles</h4> 
+    {% endif %}
+</div>
+    
+{% endblock content %}
+    

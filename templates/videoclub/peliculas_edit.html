@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block title %}
+Administrar Películas
+{% endblock title %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Películas" "peliculas" %}
+    {% breadcrumb "Administrar películas" "manage_peliculas" %} <!-- FIXME: El link no redirige bien -->
+    {% breadcrumb pelicula.titulo pelicula.id %}
+{% endblock breadcrumbs %}
+{% block content %}
+
+<div class="row">
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html"%}
+</div>
+
+<hr class="w-100">
+
+<div class="row">
+
+</div>
+
+<div class="row justify-content-center mb-2 pt-4 pb-4">
+    <div class="col-md-12">
+        <h2 class="bg-dark text-white p-1 pl-4 rounded"><i class="mr-4 fas fa-pencil-alt"></i>{{pelicula.titulo}}</h2>
+    </div>
+    <div class="text-center col-md-7 mt-3">
+        <img style='width:150px' src="{{pelicula.url_caratula}}" alt="">
+    </div>
+    <div class="col-md-7 mt-3">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success btn-block" type="submit">Guardar cambios</button>            
+        </form>
+        <a href="{% url 'peliculas_manage' %}"><button class="mt-2 btn btn-primary btn-block" type="submit">Cancelar</button></a>
+    </div>
+</div>
+
+{% endblock content %}
+
+    

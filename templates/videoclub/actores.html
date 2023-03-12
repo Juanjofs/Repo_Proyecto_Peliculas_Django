@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load django_bootstrap_breadcrumbs %}
+{% load static %}
+
+{% block title %}
+Videoclub: actores
+{% endblock title %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Actores" "actores" %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+<div class="row">
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html"%}
+</div>
+
+<div class="row actores mt-3 mb-3 pt-3 pb-3">
+
+
+    {% if object_list %}
+
+    {% for actor in object_list %}
+
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+        <div class="hovereffect actor">
+            <img class="img-responsive mt-1" src="{{actor.url_foto}}" alt="">
+            <div class="overlay">
+                <h2>{{actor.nombre}}</h2>
+                <a class="info" href="{% url 'actor' actor.id %}">Ver ficha</a>
+            </div>
+            <div class='numero_peliculas'>{{actor.get_num_peliculas}} Películas</div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+    <h4>No hay actores disponibles</h4>
+    {% endif %}
+</div>
+
+{% endblock content %}
